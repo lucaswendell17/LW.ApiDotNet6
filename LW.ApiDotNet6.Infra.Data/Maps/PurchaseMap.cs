@@ -14,17 +14,17 @@ public class PurchaseMap : IEntityTypeConfiguration<Purchase>
         builder.HasKey(c => c.Id);
 
         builder.Property(c => c.Id)
-            .HasColumnName("IdCompra")
+            .HasColumnName("Idcompra")
             .UseIdentityColumn();
 
         builder.Property(c => c.PersonId)
-            .HasColumnName("IdPessoa");
+            .HasColumnName("Idpessoa");
 
         builder.Property(c => c.ProductId)
-            .HasColumnName("IdProduto");
+            .HasColumnName("Idproduto");
 
         builder.Property(c => c.Date)
-            .HasColumnName("DataCompra");
+            .HasColumnName("Datacompra");
 
         builder.HasOne(c => c.Person)
             .WithMany(p => p.Purchases);

@@ -14,6 +14,7 @@ public sealed class Person
     public Person(string document, string name, string phone)
     {
         Validation(document, name, phone);
+        Purchases = new List<Purchase>();
     }
 
     public Person(int id, string document, string name, string phone)
@@ -21,6 +22,7 @@ public sealed class Person
         DomainValidationException.When(id < 0, "Id da pessoa deve ser informado!");
         Id = id;
         Validation(document, name, phone);
+        Purchases = new List<Purchase>();
     }
     private void Validation(string document, string name, string phone)
     {

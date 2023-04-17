@@ -14,14 +14,14 @@ public class ProductMap : IEntityTypeConfiguration<Product>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)
-            .HasColumnName("IdProduto")
+            .HasColumnName("Idproduto")
             .UseIdentityColumn();
 
         builder.Property(x => x.Name)
             .HasColumnName("Nome");
 
         builder.Property(c => c.CodErp)
-            .HasColumnName("CodErp");
+            .HasColumnName("Coderp");
 
         builder.Property(x => x.Price)
             .HasColumnName("Preco");
