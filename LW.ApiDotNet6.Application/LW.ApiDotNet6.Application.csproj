@@ -10,4 +10,8 @@
     <ProjectReference Include="..\LW.ApiDotNet6.Domain\LW.ApiDotNet6.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.5.2" />
+  </ItemGroup>
+
 </Project>
