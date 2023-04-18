@@ -11,11 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\LW.ApiDotNet6.Infra.Ioc\LW.ApiDotNet6.Infra.Ioc.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LW.ApiDotNet6.Infra.Ioc\LW.ApiDotNet6.Infra.Ioc.csproj" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>
