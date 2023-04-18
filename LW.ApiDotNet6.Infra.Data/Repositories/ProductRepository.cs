@@ -38,7 +38,7 @@ public class ProductRepository : IProductRepository
         return await _db.Products.FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public async Task<ICollection<Product>> GetroductsAsync()
+    public async Task<ICollection<Product>> GetProductsAsync()
     {
         return await _db.Products.ToListAsync();
     }
