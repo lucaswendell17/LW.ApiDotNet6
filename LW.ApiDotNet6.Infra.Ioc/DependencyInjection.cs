@@ -22,7 +22,6 @@ public static class DependencyInjection
 
         services.AddScoped<IPersonRepository, PersonRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
-
         return services;
     }
 
@@ -30,7 +29,7 @@ public static class DependencyInjection
     {
         services.AddAutoMapper(typeof(DomainToDtoMapping));
         services.AddScoped<IPersonService, PersonService>();
-
+        services.AddScoped<IProductService, ProductService>();
         return services;
     }
 }

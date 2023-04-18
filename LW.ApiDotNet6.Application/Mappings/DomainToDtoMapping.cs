@@ -11,5 +11,6 @@ public class DomainToDtoMapping : Profile
 	public DomainToDtoMapping()
 	{
 		CreateMap<Person, PersonDTO>();
+		CreateMap<Product, ProductDTO>();
 	}
 }

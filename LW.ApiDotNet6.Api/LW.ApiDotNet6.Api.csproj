@@ -14,8 +14,4 @@
     <ProjectReference Include="..\LW.ApiDotNet6.Infra.Ioc\LW.ApiDotNet6.Infra.Ioc.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
