@@ -19,13 +19,15 @@ public class PurchaseService : IPurchaseService
     private readonly IProductRepository _productRepository;
     private readonly IPurchaseRepository _purchaseRepository;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public PurchaseService(IPersonRepository personRepository, IProductRepository productRepository, IPurchaseRepository purchaseRepository, IMapper mapper)
+    public PurchaseService(IPersonRepository personRepository, IProductRepository productRepository, IPurchaseRepository purchaseRepository, IMapper mapper, IUnitOfWork unitOfWork)
     {
         _personRepository = personRepository;
         _productRepository = productRepository;
         _purchaseRepository = purchaseRepository;
         _mapper = mapper;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ResultService<PurchaseDTO>> CreateAsync(PurchaseDTO purchaseDTO)
@@ -37,13 +39,30 @@ public class PurchaseService : IPurchaseService
         if (!validation.IsValid)
             return ResultService.RequestError<PurchaseDTO>("Problemas de validação", validation);
 
-        var productId = await _productRepository.GetIdByCodErpAsync(purchaseDTO.CodErp);
-        var personId = await _personRepository.GetIdByDocumentAsync(purchaseDTO.Document);
-        var purchase = new Purchase(productId, personId);
+        try
+        {
+            await _unitOfWork.BeginTransaction();
+            var productId = await _productRepository.GetIdByCodErpAsync(purchaseDTO.CodErp);
+            if (productId == 0)
+            {
+                var product = new Product(purchaseDTO.ProductName, purchaseDTO.CodErp, purchaseDTO.Price ?? 0);
+                await _productRepository.CreateAsync(product);
+                productId = product.Id;
+            }
 
-        var data = await _purchaseRepository.CreateAsync(purchase);
-        purchaseDTO.Id = data.Id;
-        return ResultService.Ok<PurchaseDTO>(purchaseDTO);
+            var personId = await _personRepository.GetIdByDocumentAsync(purchaseDTO.Document);
+            var purchase = new Purchase(productId, personId);
+
+            var data = await _purchaseRepository.CreateAsync(purchase);
+            purchaseDTO.Id = data.Id;
+            await _unitOfWork.Commit();
+            return ResultService.Ok<PurchaseDTO>(purchaseDTO);
+        }
+        catch (Exception ex)
+        {
+            await _unitOfWork.Rollback();
+            return ResultService.Fail<PurchaseDTO>(ex.Message);
+        }
     }
 
     public async Task<ResultService> DeleteAsync(int id)

@@ -1,5 +1,6 @@
 ﻿using LW.ApiDotNet6.Application.DTOs;
 using LW.ApiDotNet6.Application.Services.Interfaces;
+using LW.ApiDotNet6.Domain.FiltersDb;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.WebSockets;
 
@@ -62,6 +63,17 @@ public class PersonController : ControllerBase
     public async Task<ActionResult> DeleteAsync(int id)
     {
         var result = await _personService.DeleteAsync(id);
+        if (result.IsSuccess)
+            return Ok(result);
+
+        return BadRequest(result);
+    }
+
+    [HttpGet]
+    [Route("paged")]
+    public async Task<ActionResult> GetPagedAsync([FromQuery] PersonFilterDb personFilterDb)
+    {
+        var result = await _personService.GetPagedAsync(personFilterDb);
         if (result.IsSuccess)
             return Ok(result);
 

@@ -5,6 +5,7 @@ using LW.ApiDotNet6.Application.DTOs;
 using LW.ApiDotNet6.Application.DTOs.Validations;
 using LW.ApiDotNet6.Application.Services.Interfaces;
 using LW.ApiDotNet6.Domain.Entities;
+using LW.ApiDotNet6.Domain.FiltersDb;
 using LW.ApiDotNet6.Domain.Repositories;
 
 namespace LW.ApiDotNet6.Application.Services;
@@ -57,6 +58,14 @@ public class PersonService : IPersonService
             return ResultService.Fail<PersonDTO>("Pessoa não encontrada!");
 
         return ResultService.Ok(_mapper.Map<PersonDTO>(person));
+    }
+
+    public async Task<ResultService<PagedBaseResponseDTO<PersonDTO>>> GetPagedAsync(PersonFilterDb personFilterDb)
+    {
+        var peoplePaged = await _personRepository.GetPagedAsync(personFilterDb);
+        var result = new PagedBaseResponseDTO<PersonDTO>(peoplePaged.TotalRegisters, 
+                                                        _mapper.Map<List<PersonDTO>>(peoplePaged.Data));
+        return ResultService.Ok(result);
     }
 
     public async Task<ResultService> UpdateAsync(PersonDTO personDTO)
