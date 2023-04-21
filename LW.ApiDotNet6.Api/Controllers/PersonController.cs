@@ -1,11 +1,13 @@
 ﻿using LW.ApiDotNet6.Application.DTOs;
 using LW.ApiDotNet6.Application.Services.Interfaces;
 using LW.ApiDotNet6.Domain.FiltersDb;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.WebSockets;
 
 namespace LW.ApiDotNet6.Api.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class PersonController : ControllerBase
